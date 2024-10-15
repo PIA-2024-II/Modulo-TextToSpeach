@@ -1,30 +1,18 @@
-import torch
-import numpy as np
-from scipy.io.wavfile import write
-from app.models.tacotron2 import Tacotron2
-from app.models.wavenet import WaveNet
+from gtts import gTTS
+import os
 
 def synthesize_speech(text: str) -> str:
-    """
-    Genera un archivo de audio a partir de texto usando Tacotron 2 y WaveNet.
-
-    Args:
-        text (str): Texto para convertir a audio.
-
-    Returns:
-        str: Ruta del archivo de audio generado.
-    """
-    # Instancia modelos (simulación para este ejemplo)
-    tacotron2 = Tacotron2()
-    wavenet = WaveNet()
-
-    # Genera espectrograma mel
-    mel_spectrogram = tacotron2.generate_mel(text)
+    # Definir el nombre del archivo de salida
+    audio_path = "output.mp3"
     
-    # Convierte mel a audio
-    audio = wavenet.generate_audio(mel_spectrogram)
+    # Crear el objeto gTTS
+    tts = gTTS(text=text, lang='es')
 
-    # Guarda el audio
-    audio_path = "output.wav"
-    write(audio_path, 22050, audio)
+    # Guardar el archivo de audio como MP3
+    tts.save(audio_path)
+
+    # Verificar si el archivo MP3 fue creado
+    if not os.path.exists(audio_path):
+        raise RuntimeError(f"Error: {audio_path} no fue creado.")
+
     return audio_path

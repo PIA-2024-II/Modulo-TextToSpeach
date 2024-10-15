@@ -3,3 +3,7 @@ uvicorn
 numpy
 torch
 scipy
+torchaudio 
+matplotlib
+gTTS
+pydub

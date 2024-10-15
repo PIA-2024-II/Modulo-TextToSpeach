@@ -10,27 +10,12 @@ class TextInput(BaseModel):
 
 @app.post("/synthesize/")
 async def synthesize(text_input: TextInput):
-    """
-    Convierte texto a audio.
-
-    Args:
-        text_input (TextInput): Texto en Mapudungun para sintetizar.
-
-    Returns:
-        FileResponse: Archivo de audio en formato WAV.
-    """
     try:
         audio_path = synthesize_speech(text_input.text)
-        return FileResponse(audio_path, media_type="audio/wav")
+        return FileResponse(audio_path, media_type="audio/mp3")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
 async def read_root():
-    """
-    Endpoint raíz de bienvenida.
-
-    Returns:
-        dict: Mensaje de bienvenida.
-    """
     return {"message": "Bienvenido al servicio TTS"}
